@@ -10,8 +10,10 @@ import styles from "./search.module.css"
 export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     const [data, setData] = useState("")
     const [tags, setTags] = useState(new Array<JSX.Element>())
+    const [loading, setLoading] = useState(false)
     const dispatch = useAppDispatch();
     const getNodes = useAppSelector(nodes);
+    const getProducts = useAppSelector(products);
     const getHints = useAppSelector(hints);
     const [autoCompleteValue, setAutoCompleteValue] = useState("")
     const onChange = (text:string) =>{
@@ -67,6 +69,7 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     }
 
     const onEnter = (value:any) => {
+        setLoading(true)
         console.log(getNodes);
         dispatch(
             search(
@@ -127,6 +130,7 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
             onSearch={(e) => onEnter(e)}
             size="large"
             placeholder="Поиск товара"
+            loading={loading && getProducts.length == 0}
             enterButton />
         </AutoComplete>
 
