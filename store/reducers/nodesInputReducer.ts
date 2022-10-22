@@ -48,7 +48,11 @@ const nodesInputSlice = createSlice({
         },
         createNode(state, action: PayloadAction<INode>) {
             state.nodes = state.nodes.concat([action.payload]);
-        }
+        },
+        deleteNode(state, action: PayloadAction<string>) {
+            state.nodes = state.nodes.filter((e) => e.value != action.payload)
+        },
+        
     },
     extraReducers: (builder) => {
         builder.addCase(search.fulfilled, (state, action) => {
@@ -60,12 +64,13 @@ const nodesInputSlice = createSlice({
     }
 })
 
-export const {setCurrentWord, createNode} = nodesInputSlice.caseReducers;
+export const {setCurrentWord, createNode, deleteNode} = nodesInputSlice.actions;
 
 
 export const hints = createSelector((state: INodesInput) => state.hints, hints => hints)
 export const currentWord = createSelector((state: INodesInput) => state.current_word, word => word)
 export const products = createSelector((state: INodesInput) => state.products, products => products)
+export const nodes = createSelector((state: INodesInput) => state.nodes, nodes => nodes)
 
 
 export default nodesInputSlice.reducer;

@@ -17,12 +17,6 @@ const Home: NextPage = () => {
   const getProducts = useAppSelector(products);
   const getHints = useAppSelector(hints);
 
-  // if (getHints.length == 0) {
-  //   dispatch(
-  //       createHints({word:"сап", hints: [] as INode[]})
-  //   )
-  // }
-  // console.log(getHints) 
 
   // if (getProducts.length == 0) {
   //   dispatch(

@@ -8,4 +8,3 @@ export const fetcher = axios.create(
         timeout: 60000
     }
 )
-
