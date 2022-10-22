@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { AutoComplete, Input, Tag } from 'antd';
+import { AutoComplete, Input, InputNumber, Popover, Radio, Tag } from 'antd';
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { createNode, deleteNode, hints, INode, loading, nodes, products, setLoading } from "../../store/reducers/nodesInputReducer";
 import { createHints, search } from "../../store/reducers/asyncActions";
 import styles from "./search.module.css"
-
+import {CalculatorOutlined} from '@ant-design/icons';
+import 'antd/dist/antd.css';
 
 
 export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
@@ -15,6 +16,7 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     const getProducts = useAppSelector(products);
     const getHints = useAppSelector(hints);
     const getLoading = useAppSelector(loading)
+    const [disableInput, setDisableInput] = useState(false)
     const [autoCompleteValue, setAutoCompleteValue] = useState("")
     const onChange = (text:string) =>{
         if (text.length >= 3 && text.length%2 == 0){
@@ -26,7 +28,8 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     } 
     const addTag = (value:INode) => {
         let color = "red"
-        switch((value as any).type ){
+
+        switch(value.type){
             case "Category":
                 color = "gold"
                 break
@@ -50,6 +53,36 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
                         >
                             {value.value.length <13? value.value:value.value.slice(0,10)+"..."}
                         </Tag>
+        
+        if (value.type.split("_")[1] == "numeric"){
+            let popver = <div className={styles.popover}>
+                <div>{value.type.split("_")[0]}</div>
+                <Radio.Group defaultValue="=" size="small">
+                    <Radio.Button value=">=">≥</Radio.Button>
+                    <Radio.Button value="=">=</Radio.Button>
+                    <Radio.Button value="<=">≤</Radio.Button>
+                </Radio.Group>
+                <InputNumber autoFocus  onClick={()=>setDisableInput(true)} size="small" min={1} max={100000} defaultValue={100}/>
+
+            </div>
+
+            tag =   <Popover onOpenChange={(e)=> e?null:setDisableInput(false)} content={popver} title="Задать значение">
+                    <Tag
+                        color={"cyan"}
+                        closable
+                        style={{ marginRight: 3 }}
+                        onClose={() => {
+                            dispatch(
+                                deleteNode(value.value)
+                            )
+                        }}
+                        >
+                            <CalculatorOutlined></CalculatorOutlined>
+                            {value.value.length < 13? value.value:value.value.slice(0,10)+"..."}
+                        </Tag>
+            </Popover>
+        }
+        
         setTags(tags.concat([tag]))
     }
 
@@ -102,6 +135,9 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     }
     return(
         <AutoComplete
+            autoFocus={false}
+            onBlur={()=>null}
+            disabled={disableInput}
             options={getHints.map((e) => {
                 const pre_str = e.value.value.slice(0, e.coordinate)
                 const after_str = e.value.value.slice(e.coordinate+autoCompleteValue.length, e.value.value.length)
@@ -122,7 +158,9 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
             dropdownMatchSelectWidth={252}
         >
             <Input.Search  prefix={tags}
-            style={{ width: "50vw" }}
+            autoFocus={false}
+            onBlur={()=>null}
+            style={{ width: "60vw" }}
             color="red-6"
             className={styles.search}
             onChange={(e)=>onChange(e.target.value)} 

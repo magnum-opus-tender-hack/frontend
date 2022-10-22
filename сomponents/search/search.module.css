@@ -18,10 +18,16 @@
     
 }
 
-.search input{
-}
+
 
 .search.ant-input-affix-wrapper-lg{
     background-color: #FBFBFB !important;
     border-radius: 17px !important;
+}
+.popover{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap:3px;
 }
