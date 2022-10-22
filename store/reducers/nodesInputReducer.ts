@@ -29,14 +29,16 @@ interface INodesInput {
         value: INode
     }[],
     current_word: string,
-    products: IProduct[]
+    products: IProduct[],
+    loading: boolean
 }
 
 const initialState: INodesInput = {
     nodes: [],
     hints: [],
     current_word: "",
-    products: []
+    products: [],
+    loading:false
 }
 
 const nodesInputSlice = createSlice({
@@ -52,11 +54,15 @@ const nodesInputSlice = createSlice({
         deleteNode(state, action: PayloadAction<string>) {
             state.nodes = state.nodes.filter((e) => e.value != action.payload)
         },
+        setLoading(state, action: PayloadAction<boolean>){
+            state.loading = action.payload
+        }
         
     },
     extraReducers: (builder) => {
         builder.addCase(search.fulfilled, (state, action) => {
             state.products = action.payload;
+            state.loading = false
         })
         builder.addCase(createHints.fulfilled, (state, action) => {
             state.hints = action.payload;
@@ -64,13 +70,15 @@ const nodesInputSlice = createSlice({
     }
 })
 
-export const {setCurrentWord, createNode, deleteNode} = nodesInputSlice.actions;
+export const {setCurrentWord, createNode, deleteNode, setLoading} = nodesInputSlice.actions;
 
 
 export const hints = createSelector((state: INodesInput) => state.hints, hints => hints)
 export const currentWord = createSelector((state: INodesInput) => state.current_word, word => word)
 export const products = createSelector((state: INodesInput) => state.products, products => products)
 export const nodes = createSelector((state: INodesInput) => state.nodes, nodes => nodes)
+export const loading = createSelector((state: INodesInput) => state.loading, loading => loading)
+
 
 
 export default nodesInputSlice.reducer;
