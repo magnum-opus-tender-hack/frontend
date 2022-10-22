@@ -4,6 +4,8 @@ import { fetcher } from "../../pages/api/fetch";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { hints, INode, products } from "../../store/reducers/nodesInputReducer";
 import { createHints, search } from "../../store/reducers/asyncActions";
+import styles from "./search.module.css"
+
 
 export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     const [data, setData] = useState("")
@@ -12,9 +14,9 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     const dispatch = useAppDispatch();
     const getHints = useAppSelector(hints);
     const [autoCompleteValue, setAutoCompleteValue] = useState("")
+
     const onChange = (text:string) =>{
         if (text.length >= 3 && text.length%3 == 0){
-            
             dispatch(
                 createHints({word:text, hints:getHints.length == 0? []: getHints.map((el)=>el.value)})
             )
@@ -61,9 +63,9 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
             onSelect={onSelect as any}
             value={autoCompleteValue}
             onChange={(e)=>setAutoCompleteValue(e)}
-            // onSearch={handleSearch}
         >
             <Input.Search  prefix={tags}
+            className={styles.search}
             onChange={(e)=>onChange(e.target.value)} 
             value={data}
             onSearch={(e) => onEnter(e)}

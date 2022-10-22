@@ -15,7 +15,9 @@ export interface IHint{
 export interface IProduct{
     name: string;
     category: string;
-    characteristics: {
+    id:number,
+    score:number,
+    characteristic: {
         name: string;
         value: string;
     }[];
