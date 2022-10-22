@@ -53,14 +53,27 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     }
 
     const onEnter = (value:any) => {
-        dispatch(search(searchOptions))
+        dispatch(
+            search(
+                searchOptions.concat(
+                    autoCompleteValue.length ?
+                    [
+                        {
+                            'type': 'All',
+                            'value': autoCompleteValue
+                
+                        }
+                    ] : []
+                )
+            )
+        )
     }
     return(
         <AutoComplete
             options={getHints.map((el)=>el.value)}
             onSelect={onSelect as any}
             value={autoCompleteValue}
-            onChange={(e)=>setAutoCompleteValue(e)}
+            onChange={(e: any)=>setAutoCompleteValue(e)}
             // onSearch={handleSearch}
         >
             <Input.Search  prefix={tags}
