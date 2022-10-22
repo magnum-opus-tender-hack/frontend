@@ -21,7 +21,7 @@ const Home: NextPage = () => {
 //         createHints("сап")
 //     )
 //   }
-//   console.log(getHints) - вызов подсказок
+//   console.log(getHints)
 
 //   if (getProducts.length == 0) {
 //     dispatch(
