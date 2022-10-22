@@ -8,7 +8,8 @@ import { useState } from 'react'
 import { TagSearch } from '../сomponents/tagSearch'
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {search, createHints} from '../store/reducers/asyncActions';
-import {products, hints} from '../store/reducers/nodesInputReducer'
+import {products, hints, INode} from '../store/reducers/nodesInputReducer'
+import { ProductsView } from '../сomponents/ProductsView'
 
 const Home: NextPage = () => {
   const [goods, setGoods] = useState([]);
@@ -16,32 +17,25 @@ const Home: NextPage = () => {
   const getProducts = useAppSelector(products);
   const getHints = useAppSelector(hints);
 
-//   if (getHints.length == 0) {
-//     dispatch(
-//         createHints("сап")
-//     )
-//   }
-//   console.log(getHints)
 
-//   if (getProducts.length == 0) {
-//     dispatch(
-//         search([
-//             {
-//                 'type': 'Name',
-//                 'value': 'Сапоги'
-//             }
-//         ])
-//       )
-//   }
-//   console.log(getProducts)
+  // if (getProducts.length == 0) {
+  //   dispatch(
+  //       search([
+  //           {
+  //               'type': 'Name',
+  //               'value': 'Сапоги'
+  //           }
+  //       ])
+  //     )
+  // }
+  // console.log(getProducts)
 // - вызов поиска
 //
 
   return (
     <div className={styles.container}>
         <Search onData={(data)=>setGoods(data)}></Search>
-        <div>{goods}</div>
-        <TagSearch  onData={(data)=>setGoods(data)}></TagSearch>
+        <ProductsView></ProductsView>
     </div>
   )
 }
