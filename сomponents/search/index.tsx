@@ -51,14 +51,23 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
         setTags(tags.concat([tag]))
     }
 
-    const onSelect = (value:string, type:INode) =>{
-        addTag(type)
-        dispatch(createNode(type));
+    const onSelect = (value:string, type:any) =>{
+        const vts = value.split('--');
+        addTag({
+            'type': vts[1],
+            'value': vts[0]
+        })
+
+        dispatch(createNode({
+            'type': vts[1],
+            'value': vts[0]
+        }));
         setAutoCompleteValue("")
 
     }
 
     const onEnter = (value:any) => {
+        console.log(getNodes);
         dispatch(
             search(
                 getNodes.concat(
@@ -100,7 +109,7 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
                         {bold_str.toLocaleLowerCase () == autoCompleteValue.toLowerCase() ? <strong>{bold_str}</strong> : <span>{bold_str}</span>}
                         <span>{after_str}</span>
                     </div>,
-                    value: e.value.value
+                    value: e.value.value + '--' + e.value.type
                 }
             })}
             onSelect={onSelect as any}
