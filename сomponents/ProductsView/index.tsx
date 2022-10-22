@@ -8,9 +8,19 @@ export const ProductsView:React.FC = () =>{
     console.log(getProducts)
     return(
         <div>
-            <Card title="Card title" bordered={false}>
-                    Card content
-            </Card>
+            {
+                getProducts.map(el=> <Card title={el.name} bordered={true}>
+                        <div>
+                            {el.category}
+                        </div>
+                        <div>
+                            {
+                               el.characteristics == undefined? "":el.characteristics.toString()
+                            }
+                        </div>
+                </Card>)
+            }
+
         </div>
     );
 }
