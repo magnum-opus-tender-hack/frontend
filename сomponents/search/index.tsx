@@ -3,6 +3,8 @@ import { AutoComplete, Input, Tag } from 'antd';
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { createNode, deleteNode, hints, INode, nodes, products } from "../../store/reducers/nodesInputReducer";
 import { createHints, search } from "../../store/reducers/asyncActions";
+import styles from "./search.module.css"
+
 
 
 export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
@@ -105,8 +107,12 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
             value={autoCompleteValue}
             onChange={(e: any)=>setAutoCompleteValue(e)}
             // onSearch={handleSearch}
+            dropdownMatchSelectWidth={252}
         >
             <Input.Search  prefix={tags}
+            style={{ width: "50vw" }}
+            color="red-6"
+            className={styles.search}
             onChange={(e)=>onChange(e.target.value)} 
             value={data}
             onSearch={(e) => onEnter(e)}

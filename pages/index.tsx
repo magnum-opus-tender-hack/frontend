@@ -35,7 +35,10 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
         <Search onData={(data)=>setGoods(data)}></Search>
-        <ProductsView></ProductsView>
+        {
+          getProducts.length == 0? null:<ProductsView></ProductsView>
+        }
+        
     </div>
   )
 }
