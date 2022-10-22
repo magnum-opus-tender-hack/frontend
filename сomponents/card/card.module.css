@@ -90,6 +90,8 @@
     transition: 0.3s;
     align-items: center;
     position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .cross{
     font-size: 40px;
