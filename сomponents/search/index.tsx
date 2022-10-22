@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AutoComplete, Input, Tag } from 'antd';
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { createNode, deleteNode, hints, INode, nodes, products } from "../../store/reducers/nodesInputReducer";
+import { createNode, deleteNode, hints, INode, loading, nodes, products, setLoading } from "../../store/reducers/nodesInputReducer";
 import { createHints, search } from "../../store/reducers/asyncActions";
 import styles from "./search.module.css"
 
@@ -10,14 +10,14 @@ import styles from "./search.module.css"
 export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     const [data, setData] = useState("")
     const [tags, setTags] = useState(new Array<JSX.Element>())
-    const [loading, setLoading] = useState(false)
     const dispatch = useAppDispatch();
     const getNodes = useAppSelector(nodes);
     const getProducts = useAppSelector(products);
     const getHints = useAppSelector(hints);
+    const getLoading = useAppSelector(loading)
     const [autoCompleteValue, setAutoCompleteValue] = useState("")
     const onChange = (text:string) =>{
-        if (text.length >= 3 && text.length%3 == 0){
+        if (text.length >= 3 && text.length%2 == 0){
             dispatch(
                 createHints({word:text, hints:getHints.length == 0? []: getHints.map((el)=>el.value)})
             )
@@ -69,8 +69,8 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     }
 
     const onEnter = (value:any) => {
-        setLoading(true)
         console.log(getNodes);
+        dispatch(setLoading(true))
         dispatch(
             search(
                 getNodes.concat(
@@ -130,7 +130,7 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
             onSearch={(e) => onEnter(e)}
             size="large"
             placeholder="Поиск товара"
-            loading={loading && getProducts.length == 0}
+            loading={getLoading}
             enterButton />
         </AutoComplete>
 
