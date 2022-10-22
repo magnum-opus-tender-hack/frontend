@@ -14,7 +14,6 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     const dispatch = useAppDispatch();
     const getHints = useAppSelector(hints);
     const [autoCompleteValue, setAutoCompleteValue] = useState("")
-
     const onChange = (text:string) =>{
         if (text.length >= 3 && text.length%3 == 0){
             dispatch(
@@ -59,12 +58,15 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     }
     return(
         <AutoComplete
+            dropdownMatchSelectWidth={252}
             options={getHints.map((el)=>el.value)}
             onSelect={onSelect as any}
             value={autoCompleteValue}
             onChange={(e)=>setAutoCompleteValue(e)}
         >
             <Input.Search  prefix={tags}
+            style={{ width: "50vw" }}
+            color="red-6"
             className={styles.search}
             onChange={(e)=>onChange(e.target.value)} 
             value={data}
