@@ -14,7 +14,7 @@ export const ProductCard: React.FC<IProduct> = (props) =>{
     return(
         props.characteristic == undefined? null:
         <div  className={styles.card}>
-            <div className={styles.name}>{props.name}</div>
+            <div className={styles.name}>{props.name.length > 100? props.name.slice(0,100) + "...":props.name}</div>
             <div className={styles.prWrap}>
                 <div className={styles.score}> <span className={styles.red}>{props.score}</span> прсмотров</div>
                 <div className={styles.characteristic}> <span className={styles.blue}>{props.characteristic.length}</span> характеристик</div>

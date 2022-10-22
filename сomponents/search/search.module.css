@@ -4,6 +4,7 @@
     border: 1px solid #BDBDBD;
     border-radius: 0px 17px 17px 0px !important;
     background-color: #DB2B21;
+    z-index: 0;
 }
 
 .search button:hover{
@@ -14,13 +15,19 @@
 
 .search.ant-input-group-addonn{
     background-color: #e7eef7 !important;
-
+    
 }
 
-.search input{
-}
+
 
 .search.ant-input-affix-wrapper-lg{
     background-color: #FBFBFB !important;
     border-radius: 17px !important;
+}
+.popover{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap:3px;
 }
