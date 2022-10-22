@@ -1,1 +1,1 @@
-export const host = "https://0c9e-5-227-22-1.eu.ngrok.io/api/"
+export const host = "https://7ee1-5-227-22-5.eu.ngrok.io/api/"
