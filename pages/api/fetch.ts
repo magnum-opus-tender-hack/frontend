@@ -6,7 +6,6 @@ export const fetcher = axios.create(
     {
         baseURL: host,
         timeout: 5000,
-       
     }
 )
 
