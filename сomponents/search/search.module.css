@@ -1,0 +1,26 @@
+
+
+.search button{
+    border: 1px solid #BDBDBD;
+    border-radius: 0px 17px 17px 0px !important;
+    background-color: #DB2B21;
+}
+
+.search button:hover{
+    border: 1px solid #BDBDBD;
+    border-radius: 0px 17px 17px 0px !important;
+    background-color: #DB2B21;
+}
+
+.search.ant-input-group-addonn{
+    background-color: #e7eef7 !important;
+
+}
+
+.search input{
+}
+
+.search.ant-input-affix-wrapper-lg{
+    background-color: #FBFBFB !important;
+    border-radius: 17px !important;
+}
