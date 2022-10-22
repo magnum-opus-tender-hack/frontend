@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { AutoComplete, Input, Tag } from 'antd';
+import { AutoComplete, Input, Tag, Tooltip } from 'antd';
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { createNode, deleteNode, hints, INode, nodes, products } from "../../store/reducers/nodesInputReducer";
 import { createHints, search } from "../../store/reducers/asyncActions";
 import styles from "./search.module.css"
 
-
+function parse_types(type: string) {
+    if (type == 'Name') return 'Наименование'
+    if (type == 'Category') return 'Категория'
+    return type;
+}
 
 export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     const [data, setData] = useState("")
@@ -107,11 +111,13 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
                 const after_str = e.value.value.slice(e.coordinate+autoCompleteValue.length, e.value.value.length)
                 const bold_str = e.value.value.slice(e.coordinate, e.coordinate+autoCompleteValue.length)
                 return {
-                    label: <div>
-                        <span>{pre_str}</span>
-                        {bold_str.toLocaleLowerCase () == autoCompleteValue.toLowerCase() ? <strong>{bold_str}</strong> : <span>{bold_str}</span>}
-                        <span>{after_str}</span>
-                    </div>,
+                    label: <Tooltip title={parse_types(e.value.type)} placement={'topRight'}>
+                        <div>
+                            <span>{pre_str}</span>
+                            {bold_str.toLocaleLowerCase () == autoCompleteValue.toLowerCase() ? <strong>{bold_str}</strong> : <span>{bold_str}</span>}
+                            <span>{after_str}</span>
+                        </div>
+                    </Tooltip>,
                     value: e.value.value + '--' + e.value.type
                 }
             })}
