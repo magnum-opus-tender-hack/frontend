@@ -3,19 +3,20 @@ import {search, createHints} from './asyncActions';
 
 
 export interface INode{
-    type: "Unknown" | "Category" | "Name" | string;
+    type: "All" | "Category" | "Name" | string;
     value: string;
 }
 
 export interface IHint{
-    node: INode;
+    value: INode;
     coordinate: number;
 }
 
 export interface IProduct{
     name: string;
-    category: string;
-    characteristics: {
+    id:number,
+    score:number,
+    characteristic: {
         name: string;
         value: string;
     }[];
@@ -25,7 +26,7 @@ interface INodesInput {
     nodes: INode[],
     hints: {
         coordinate: number,
-        node: INode
+        value: INode
     }[],
     current_word: string,
     products: IProduct[]

@@ -29,7 +29,7 @@ const options = [{ value: "мяч", label: "gold" }, {value:"шайба", label:
 
 
 const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
+  console.log(value);
 };
 
 export const TagSearch: React.FC<{onData:(data:any)=>void}> = (props) =>{
