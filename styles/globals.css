@@ -20,7 +20,8 @@ a {
   html {
     color-scheme: dark;
   }
-  body {    
+  body {
+    
     transition: 0.3s;
 
     color: white;
