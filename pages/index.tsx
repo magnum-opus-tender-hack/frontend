@@ -10,6 +10,7 @@ import {useAppDispatch, useAppSelector} from '../hooks';
 import {search, createHints} from '../store/reducers/asyncActions';
 import {products, hints, INode} from '../store/reducers/nodesInputReducer'
 import { ProductsView } from '../сomponents/ProductsView'
+import { MyHeader } from '../сomponents/header'
 
 const Home: NextPage = () => {
   const [goods, setGoods] = useState([]);
@@ -34,6 +35,7 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
+        <MyHeader></MyHeader>
         <Search onData={(data)=>setGoods(data)}></Search>
         {
           getProducts.length == 0? null:<ProductsView></ProductsView>
