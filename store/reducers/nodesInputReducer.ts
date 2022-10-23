@@ -56,6 +56,32 @@ const nodesInputSlice = createSlice({
         },
         setLoading(state, action: PayloadAction<boolean>){
             state.loading = action.payload
+        },
+        updateNumberNode(state, action: PayloadAction<{value: string, number: number}>) {
+            state.nodes = state.nodes.map((e) => {
+                var operation = '=';
+                if (e.value[0] == '>' && e.value[1] == '=') operation = '>='
+                if (e.value[0] == '<' && e.value[1] == '=') operation = '<=' 
+                return e.value == e.value ? {
+                    type: e.type,
+                    value: operation + action.payload.number.toString()
+                } : e
+            })
+        },
+        updateOperationNode(state, action: PayloadAction<{value: string, operation: string}>) {
+            state.nodes = state.nodes.map((e) => {
+                var value = 0
+                if (action.payload.operation.length == 2) {
+                    value = Number.parseInt(e.value.slice(2, e.value.length))
+                }
+                else {
+                    value = Number.parseInt(e.value.slice(1, e.value.length))
+                }
+                return e.value == e.value ? {
+                    type: e.type,
+                    value: action.payload.operation + value
+                } : e
+            })
         }
         
     },
@@ -70,7 +96,14 @@ const nodesInputSlice = createSlice({
     }
 })
 
-export const {setCurrentWord, createNode, deleteNode, setLoading} = nodesInputSlice.actions;
+export const {
+    setCurrentWord, 
+    createNode, 
+    deleteNode, 
+    setLoading, 
+    updateNumberNode, 
+    updateOperationNode
+} = nodesInputSlice.actions;
 
 
 export const hints = createSelector((state: INodesInput) => state.hints, hints => hints)

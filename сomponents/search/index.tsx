@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AutoComplete, Input, Tag, Tooltip } from 'antd';
 import { InputNumber, Popover, Radio } from 'antd';
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { createNode, deleteNode, hints, INode, loading, nodes, products, setLoading } from "../../store/reducers/nodesInputReducer";
+import { createNode, deleteNode, hints, INode, loading, nodes, products, setLoading, updateNumberNode, updateOperationNode } from "../../store/reducers/nodesInputReducer";
 import { createHints, search } from "../../store/reducers/asyncActions";
 import styles from "./search.module.css"
 
@@ -65,16 +65,34 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
         if (value.type.split("_")[1] == "numeric"){
             let popver = <div className={styles.popover}>
                 <div>{value.type.split("_")[0]}</div>
-                <Radio.Group defaultValue="=" size="small">
+                <Radio.Group defaultValue="=" size="small" onChange={(e) => {
+                    console.log(e.target.value)
+                    dispatch(
+                        updateOperationNode({value: value.value, operation: e.target.value})
+                    )
+                }}>
                     <Radio.Button value=">=">≥</Radio.Button>
                     <Radio.Button value="=">=</Radio.Button>
                     <Radio.Button value="<=">≤</Radio.Button>
                 </Radio.Group>
-                <InputNumber autoFocus  onClick={()=>setDisableInput(true)} size="small" min={1} max={100000} defaultValue={100}/>
+                <InputNumber 
+                    autoFocus  
+                    onClick={()=>setDisableInput(true)} 
+                    size="small" 
+                    min={1} 
+                    max={100000} 
+                    defaultValue={100}
+                    onChange={(ee) => {
+                        console.log(ee)
+                        dispatch(
+                            updateNumberNode({value: value.value, number: ee!})
+                        )
+                    }}
+                />
 
             </div>
 
-            tag =   <Popover onOpenChange={(e)=> e?null:setDisableInput(false)} content={popver} title="Задать значение">
+            tag = <Popover onOpenChange={(e)=> e?null:setDisableInput(false)} content={popver} title="Задать значение">
                     <Tag
                         color={"cyan"}
                         closable
@@ -85,7 +103,11 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
                             )
                         }}
                         >
-                            <CalculatorOutlined></CalculatorOutlined>
+                            <CalculatorOutlined
+                            onChange={(e) => {
+                                console.log(e)
+                            }}
+                            ></CalculatorOutlined>
                             {value.value.length < 13? value.value:value.value.slice(0,10)+"..."}
                         </Tag>
             </Popover>
@@ -95,12 +117,15 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
     }
 
     const onSelect = (value:string, type:any) =>{
-        const vts = value.split('--');
+        var vts = value.split('--');
         addTag({
             'type': vts[1],
             'value': vts[0]
         })
-
+        if (vts[1].endsWith('_numeric')){
+            vts[1] = '*'+vts[1].split('_')[0]
+            vts[0] = '=0'
+        }
         dispatch(createNode({
             'type': vts[1],
             'value': vts[0]
@@ -158,7 +183,7 @@ export const Search: React.FC<{onData:(data:any)=>void}> = (props) =>{
                             <span>{after_str}</span>
                         </div>
                     </Tooltip>,
-                    value: e.value.value + '--' + e.value.type
+                    value: e.value.value + '--' + e.value.type + '--' + Date.now().toString()
                 }
             })}
             onSelect={onSelect as any}
